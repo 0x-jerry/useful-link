@@ -480,5 +480,14 @@
     "links": {
       "href": "https://www.beekeeperstudio.io/"
     }
+  },
+  {
+    "title": "Quick Type",
+    "desc": "一个可以把 JSON,Schema,GraphQL 转换成各种语言的类型",
+    "tags": ["web"],
+    "links": {
+      "href": "https://app.quicktype.io/",
+      "git": "https://github.com/quicktype/quicktype"
+    }
   }
 ]
