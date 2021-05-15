@@ -10,7 +10,7 @@
     "test": "yarn lint"
   },
   "devDependencies": {
-    "@exyz/glib": "^0.3.7",
+    "@exyz/glib": "^0.4.4",
     "@prefresh/vite": "^2.1.0",
     "eslint": "^7.3.1",
     "eslint-config-standard": "^16.0.2",
