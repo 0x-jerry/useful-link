@@ -489,5 +489,13 @@
       "href": "https://app.quicktype.io/",
       "git": "https://github.com/quicktype/quicktype"
     }
+  }, 
+  {
+    "title": "Google Search",
+    "desc": "无重定向的谷歌搜索",
+    "tags": ["web"],
+    "links": {
+      "href": "https://google.com/ncr"
+    }
   }
 ]
