@@ -497,5 +497,13 @@
     "links": {
       "href": "https://google.com/ncr"
     }
+  },
+  {
+    "title": "Internet Archive",
+    "desc": "互联网档案",
+    "tags": ["web", "archive"],
+    "links": {
+      "href": "https://archive.org/"
+    }
   }
 ]
