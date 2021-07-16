@@ -1,7 +1,7 @@
 import { IconType } from '../Icones'
 
 export interface ICategory {
-  tags: string[]
+  tags: (IconType | '*')[]
   title: string
   icon: IconType
 }
@@ -29,17 +29,17 @@ export const categories: ICategory[] = [
   },
   {
     tags: ['win'],
-    title: 'win 软件',
+    title: 'windows',
     icon: 'win',
   },
   {
     tags: ['mac'],
-    title: 'mac 软件',
+    title: 'mac',
     icon: 'mac',
   },
   {
     tags: ['linux'],
-    title: 'linux 软件',
+    title: 'linux',
     icon: 'linux',
   },
 

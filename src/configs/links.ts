@@ -1,6 +1,6 @@
 import { IconType } from '../Icones'
 
-export interface INavigation {
+interface IRawLink {
   title: string
   icon?: IconType
   desc: string
@@ -10,7 +10,11 @@ export interface INavigation {
   }
 }
 
-export const navigation: INavigation[] = [
+export interface ILink extends IRawLink {
+  id: number
+}
+
+const rawLinks: IRawLink[] = [
   {
     title: 'Github',
     desc: '全球 Git 分布式存储仓库',
@@ -519,3 +523,5 @@ export const navigation: INavigation[] = [
     },
   },
 ]
+
+export const links: ILink[] = rawLinks.map((l, idx) => ({ ...l, id: idx }))
