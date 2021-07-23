@@ -1,4 +1,4 @@
-import { IconType } from '../Icones'
+import { IconType } from '../Icons'
 
 interface IRawLink {
   title: string
