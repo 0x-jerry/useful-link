@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useRef } from 'react'
 import { useKeydown } from '../hooks/useKeydown'
 import { useStore } from '../hooks/useStore'
 import { icons } from '../Icons'
@@ -18,16 +18,15 @@ const useSearchBoxStore = (props: SearchProps) => {
 
 export const SearchBox: FC<SearchProps> = (props) => {
   const [data, actions] = useSearchBoxStore(props)
+  const inputEl = useRef<HTMLInputElement>(null)
 
-  useKeydown(
-    (e) => {
-      console.log('focus', e)
-    },
-    {
-      key: 'k',
-      meta: true,
-    }
-  )
+  useKeydown('meta, k', () => {
+    inputEl.current?.focus()
+  })
+
+  useKeydown('esc', () => {
+    inputEl.current?.blur()
+  })
 
   const doSearch = () => {
     console.log('hello search')
@@ -37,6 +36,7 @@ export const SearchBox: FC<SearchProps> = (props) => {
     <>
       <div className="border-b border-gray-300 focus-within:border-bg-gray-500 transition-colors inline-flex items-center hover:border-gray-500">
         <input
+          ref={inputEl}
           className="outline-none"
           type="text"
           onChange={(e) => actions.search(e.target.value)}

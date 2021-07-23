@@ -8,9 +8,19 @@ interface KeyOption {
   shift?: boolean
 }
 
-export function useKeydown(listener: (e: KeyboardEvent) => any, opt: KeyOption) {
+type KeyboardEventListener = (e: KeyboardEvent) => any
+
+const events: Set<KeyboardEventListener> = new Set()
+
+window.addEventListener('keydown', (e) => {
+  console.log(e)
+  for (const evt of events) {
+    evt(e)
+  }
+})
+
+function _useKeydown(listener: (e: KeyboardEvent) => any, opt: KeyOption) {
   useEffect(() => {
-    console.log('hello')
     const handler = (e: KeyboardEvent) => {
       const hit =
         !!opt.meta === e.metaKey &&
@@ -24,11 +34,48 @@ export function useKeydown(listener: (e: KeyboardEvent) => any, opt: KeyOption) 
       }
     }
 
-    window.addEventListener('keydown', handler)
+    events.add(handler)
 
     return () => {
-      console.log('hello end')
-      window.removeEventListener('keydown', handler)
+      events.delete(handler)
     }
   }, [listener, opt.alt, opt.ctrl, opt.key, opt.meta, opt.shift])
+}
+
+const specialKeys = ['meta', 'ctrl', 'alt', 'shift'] as const
+
+type SpecialKey = typeof specialKeys[number]
+
+const isSpecialKey = (key: string): key is SpecialKey => specialKeys.includes(key as SpecialKey)
+
+const shortKeyMap: Record<string, string> = {
+  esc: 'Escape',
+}
+
+export function useKeydown(key: string, listener: KeyboardEventListener) {
+  const opt: KeyOption = {
+    key: '',
+    meta: false,
+    ctrl: false,
+    alt: false,
+    shift: false,
+  }
+
+  const keys = key
+    .split(/[+,]/g)
+    .filter((n) => !!n.trim())
+    .map((n) => {
+      const s = n.trim()
+      return shortKeyMap[s] || s
+    })
+
+  for (const key of keys) {
+    if (isSpecialKey(key)) {
+      opt[key] = true
+    } else {
+      opt.key = key
+    }
+  }
+
+  _useKeydown(listener, opt)
 }
