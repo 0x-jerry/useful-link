@@ -2,6 +2,7 @@ import React, { FC, useRef } from 'react'
 import { useKeydown } from '../hooks/useKeydown'
 import { useStore } from '../hooks/useStore'
 import { icons } from '../Icons'
+import styles from './SearchBox.module.css'
 
 export interface SearchProps {}
 
@@ -34,7 +35,7 @@ export const SearchBox: FC<SearchProps> = (props) => {
 
   return (
     <>
-      <div className="border-b border-gray-300 focus-within:border-bg-gray-500 transition-colors inline-flex items-center hover:border-gray-500">
+      <div className={styles.searchBox}>
         <input
           ref={inputEl}
           className="outline-none"
