@@ -13,7 +13,6 @@ type KeyboardEventListener = (e: KeyboardEvent) => any
 const events: Set<KeyboardEventListener> = new Set()
 
 window.addEventListener('keydown', (e) => {
-  console.log(e)
   for (const evt of events) {
     evt(e)
   }

@@ -30,6 +30,7 @@ const categoryLinksCache: Record<string, ILink[] | null> = {}
 
 export const configs = {
   site: siteConfig,
+  links,
   getLinks(categoryTitle: string): ILink[] {
     const category = categories.find((t) => t.title === categoryTitle)
 

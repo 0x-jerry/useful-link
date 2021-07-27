@@ -5,6 +5,7 @@ import { KeysSymbol } from './KeySymbol'
 import styles from './SearchBox.module.css'
 
 export interface SearchProps {
+  clearOnEsc?: boolean
   doSearch: (val: string) => any
   clear?: (val: '') => any
 }
@@ -17,8 +18,17 @@ export const SearchBox: FC<SearchProps> = (props) => {
   })
 
   useKeydown('esc', () => {
-    inputEl.current?.blur()
     props.clear?.('')
+
+    if (!inputEl.current) {
+      return
+    }
+
+    inputEl.current.blur()
+
+    if (props.clearOnEsc) {
+      inputEl.current.value = ''
+    }
   })
 
   const shortcut = isWin() ? 'CTRL K' : '⌘ K'
