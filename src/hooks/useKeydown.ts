@@ -48,11 +48,13 @@ type SpecialKey = typeof specialKeys[number]
 
 const isSpecialKey = (key: string): key is SpecialKey => specialKeys.includes(key as SpecialKey)
 
-const shortKeyMap: Record<string, string> = {
+const keyShortMap: Record<string, string> = {
   esc: 'Escape',
+  enter: 'Enter',
+  space: ' ',
 }
 
-export function useKeydown(key: string, listener: KeyboardEventListener) {
+function parseKeyOption(key: string) {
   const opt: KeyOption = {
     key: '',
     meta: false,
@@ -66,7 +68,7 @@ export function useKeydown(key: string, listener: KeyboardEventListener) {
     .filter((n) => !!n.trim())
     .map((n) => {
       const s = n.trim()
-      return shortKeyMap[s] || s
+      return keyShortMap[s] || s
     })
 
   for (const key of keys) {
@@ -77,5 +79,11 @@ export function useKeydown(key: string, listener: KeyboardEventListener) {
     }
   }
 
-  _useKeydown(listener, opt)
+  return opt
+}
+
+export function useKeydown(keys: string, listener: KeyboardEventListener) {
+  keys.split('|').forEach((key) => {
+    _useKeydown(listener, parseKeyOption(key))
+  })
 }

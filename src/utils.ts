@@ -7,3 +7,7 @@ export function hasIntersection<T = string | number>(arr1: T[], arr2: T[]): bool
 
   return false
 }
+
+export function isWin() {
+  return !/Mac OS/i.test(navigator.userAgent)
+}

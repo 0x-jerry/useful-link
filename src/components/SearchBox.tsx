@@ -1,50 +1,37 @@
 import React, { FC, useRef } from 'react'
 import { useKeydown } from '../hooks/useKeydown'
-import { useStore } from '../hooks/useStore'
-import { icons } from '../Icons'
+import { isWin } from '../utils'
+import { KeysSymbol } from './KeySymbol'
 import styles from './SearchBox.module.css'
 
-export interface SearchProps {}
-
-const useSearchBoxStore = (props: SearchProps) => {
-  return useStore(
-    { input: '' },
-    {
-      search(store, value: string) {
-        store.input = value
-      },
-    }
-  )
+export interface SearchProps {
+  doSearch: (val: string) => any
+  clear?: (val: '') => any
 }
-
 export const SearchBox: FC<SearchProps> = (props) => {
-  const [data, actions] = useSearchBoxStore(props)
   const inputEl = useRef<HTMLInputElement>(null)
 
-  useKeydown('meta, k', () => {
+  useKeydown('meta, k | ctrl, k', (e) => {
+    e.preventDefault()
     inputEl.current?.focus()
   })
 
   useKeydown('esc', () => {
     inputEl.current?.blur()
+    props.clear?.('')
   })
 
-  const doSearch = () => {
-    console.log('hello search')
-  }
+  const shortcut = isWin() ? 'CTRL K' : '⌘ K'
 
   return (
-    <>
-      <div className={styles.searchBox}>
-        <input
-          ref={inputEl}
-          className="outline-none"
-          type="text"
-          onChange={(e) => actions.search(e.target.value)}
-        />
-        <icons.search className="cursor-pointer" onClick={doSearch} />
-      </div>
-      <div className="search-content">{JSON.stringify(data)}</div>
-    </>
+    <div className={styles.searchBox}>
+      <input
+        ref={inputEl}
+        className="outline-none"
+        type="text"
+        onChange={(e) => props.doSearch?.(e.target.value)}
+      />
+      <KeysSymbol className="pl-1" keys={shortcut} />
+    </div>
   )
 }
