@@ -1,14 +1,14 @@
 import { IconType } from '../Icons'
 
 export interface ICategory {
-  tags: (IconType | '*')[]
+  tags: IconType[]
   title: string
   icon: IconType
 }
 
 export const categories: ICategory[] = [
   {
-    tags: ['*'],
+    tags: [],
     title: '所有',
     icon: 'grid',
   },

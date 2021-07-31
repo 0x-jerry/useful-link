@@ -6,6 +6,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "classnames": "^2.3.1",
     "clone": "^2.1.2",
     "fuse.js": "^6.4.6",
     "react": "^17.0.0",

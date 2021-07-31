@@ -31,16 +31,16 @@ export const SearchBox: FC<SearchProps> = (props) => {
     }
   })
 
+  const changeInput: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    e.preventDefault()
+    props.doSearch?.(e.target.value)
+  }
+
   const shortcut = isWin() ? 'CTRL K' : '⌘ K'
 
   return (
     <div className={styles.searchBox}>
-      <input
-        ref={inputEl}
-        className="outline-none"
-        type="text"
-        onChange={(e) => props.doSearch?.(e.target.value)}
-      />
+      <input ref={inputEl} className="outline-none" type="text" onChange={changeInput} />
       <KeysSymbol className="pl-1" keys={shortcut} />
     </div>
   )

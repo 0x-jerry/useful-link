@@ -12,8 +12,17 @@ type KeyboardEventListener = (e: KeyboardEvent) => any
 
 const events: Set<KeyboardEventListener> = new Set()
 
+const inputTags: string[] = ['INPUT', 'TEXTAREA']
+
 window.addEventListener('keydown', (e) => {
-  for (const evt of events) {
+  const isInput = inputTags.includes(document.activeElement?.nodeName || '')
+  if (isInput && e.key !== 'Escape') {
+    return
+  }
+
+  const currentEvents = [...events]
+
+  for (const evt of currentEvents) {
     evt(e)
   }
 })
