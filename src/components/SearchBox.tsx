@@ -6,8 +6,9 @@ import styles from './SearchBox.module.css'
 
 export interface SearchProps {
   clearOnEsc?: boolean
-  doSearch: (val: string) => any
+  onChange: (val: string) => any
   clear?: (val: '') => any
+  value: string
 }
 export const SearchBox: FC<SearchProps> = (props) => {
   const inputEl = useRef<HTMLInputElement>(null)
@@ -31,16 +32,17 @@ export const SearchBox: FC<SearchProps> = (props) => {
     }
   })
 
-  const changeInput: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    e.preventDefault()
-    props.doSearch?.(e.target.value)
-  }
-
   const shortcut = isWin() ? 'CTRL K' : '⌘ K'
 
   return (
     <div className={styles.searchBox}>
-      <input ref={inputEl} className="outline-none" type="text" onChange={changeInput} />
+      <input
+        ref={inputEl}
+        className="outline-none"
+        type="text"
+        value={props.value}
+        onChange={(e) => props.onChange(e.target.value)}
+      />
       <KeysSymbol className="pl-1" keys={shortcut} />
     </div>
   )

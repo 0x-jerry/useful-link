@@ -10,10 +10,27 @@ import { ICategory } from './configs/categories'
 function useAppStore() {
   return useStore(
     {
+      searchText: '',
       links: configs.links,
       currentCategory: configs.categories[0],
     },
     {
+      search(store, text: string) {
+        store.searchText = text
+
+        if (!text) {
+          const category = store.currentCategory
+
+          const links = configs.getLinks(category.title)
+          store.links = links
+          return
+        }
+
+        const res = configs.search(text, store.currentCategory.title)
+        const links = res.map((n) => n.item)
+
+        store.links = links
+      },
       updateLinks(store, links: ILink[]) {
         store.links = links
       },
@@ -36,27 +53,24 @@ function useAppStore() {
 export function App() {
   const [data, actions] = useAppStore()
 
-  const search = (val: string) => {
-    if (!val) {
-      actions.updateCategory()
-      return
-    }
-
-    const res = configs.search(val, data.currentCategory.title)
-    actions.updateLinks(res.map((n) => n.item))
-  }
-
   const selectCategory = (category: ICategory) => {
     actions.setCategory(category)
   }
 
-  const cards = data.links.map((link) => <LinkCard className="m-2" {...link} key={link.id} />)
+  const cards = data.links.map((link) => (
+    <LinkCard className="m-2" {...link} key={link.id} onClick={actions.search} />
+  ))
 
   return (
     <div className="p-5">
       <div className="flex">
         <Tags className="mr-10" tags={configs.categories} onClick={selectCategory} />
-        <SearchBox clearOnEsc doSearch={search} clear={search} />
+        <SearchBox
+          clearOnEsc
+          onChange={actions.search}
+          clear={actions.search}
+          value={data.searchText}
+        />
       </div>
       <div className="grid grid-cols-4 py-2">{cards}</div>
     </div>

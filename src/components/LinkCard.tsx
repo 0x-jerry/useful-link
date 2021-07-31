@@ -5,6 +5,7 @@ import styles from './LinkCard.module.css'
 
 export interface LinkCardProps extends ILink {
   className?: string
+  onClick?: (tagName: string) => void
 }
 
 const LinkTags: FC<LinkCardProps> = (props) => {
@@ -31,9 +32,9 @@ const LinkTags: FC<LinkCardProps> = (props) => {
 
     return (
       render && (
-        <span className={styles.tag} key={tag} title={tag}>
+        <a className={styles.tag} key={tag} title={tag} onClick={() => props.onClick?.(tag)}>
           {render({})}
-        </span>
+        </a>
       )
     )
   })
@@ -47,13 +48,13 @@ const LinkTags: FC<LinkCardProps> = (props) => {
 }
 
 export const LinkCard: FC<LinkCardProps> = (props) => {
-  const { className, ...link } = props
+  const { className, onClick, ...link } = props
 
   const classes = [styles.cardBox, className || ''].join(' ')
 
   return (
     <div className={classes}>
-      <LinkTags {...link} />
+      <LinkTags {...link} onClick={props.onClick} />
       <div className="text-lg">{props.title}</div>
       <div className="text-gray-500">{props.desc}</div>
     </div>
