@@ -8,16 +8,16 @@ const searchOption: Fuse.IFuseOptions<ILink> = {
   includeScore: true,
   keys: [
     {
+      name: 'tags',
+      weight: 20,
+    },
+    {
       name: 'title',
       weight: 10,
     },
     {
       name: 'desc',
-      weight: 3,
-    },
-    {
-      name: 'tags',
-      weight: 2,
+      weight: 5,
     },
   ],
 }
