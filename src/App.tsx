@@ -27,17 +27,14 @@ function useAppStore() {
 export function App() {
   const [data, actions] = useAppStore()
 
+  const updateCategory = (c: ICategory) => {
+    const links = configs.getLinks(c.title)
+    actions.updateLinks(links)
+  }
+
   const search = (val: string) => {
     if (!val) {
-      const searchTags = data.currentCategory.tags.join(',')
-
-      if (searchTags) {
-        const res = configs.search(searchTags)
-        actions.updateLinks(res.map((n) => n.item))
-        return
-      }
-
-      actions.updateLinks(configs.links)
+      updateCategory(data.currentCategory)
       return
     }
 
@@ -48,14 +45,7 @@ export function App() {
   const selectCategory = (category: ICategory) => {
     actions.setCategory(category)
 
-    const searchKey = category.tags.join(',')
-    if (!searchKey) {
-      actions.updateLinks(configs.links)
-      return
-    }
-
-    const res = configs.search(searchKey)
-    actions.updateLinks(res.map((n) => n.item))
+    updateCategory(category)
   }
 
   const cards = data.links.map((link) => <LinkCard className="m-2" {...link} key={link.id} />)

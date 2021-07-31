@@ -45,7 +45,15 @@ export const configs = {
       return []
     }
 
-    return links.filter((l) => hasIntersection(l.tags, category.tags))
+    if (!category.tags.length) {
+      categoryLinksCache[categoryTitle] = links
+
+      return links
+    }
+
+    const cLinks = links.filter((l) => hasIntersection(l.tags, category.tags))
+    categoryLinksCache[categoryTitle] = cLinks
+    return cLinks
   },
   search(key: string, categoryTitle?: string) {
     let fuse = fuseCache.all!
