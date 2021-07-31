@@ -56,7 +56,7 @@ export const useStore = <
   }
 
   const reducer = (prevState: Store, action: ActionType) => {
-    const fn = actions[action.type]
+    const fn = actions[action.type].bind(actions)
 
     const cloneState = options.clone ? clone(prevState) : prevState
 

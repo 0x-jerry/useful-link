@@ -19,10 +19,7 @@ function useAppStore() {
         store.searchText = text
 
         if (!text) {
-          const category = store.currentCategory
-
-          const links = configs.getLinks(category.title)
-          store.links = links
+          this.updateCategory(store)
           return
         }
 
@@ -31,14 +28,10 @@ function useAppStore() {
 
         store.links = links
       },
-      updateLinks(store, links: ILink[]) {
-        store.links = links
-      },
       setCategory(store, current: ICategory) {
         store.currentCategory = current
 
-        const links = configs.getLinks(current.title)
-        store.links = links
+        this.search(store, store.searchText)
       },
       updateCategory(store) {
         const category = store.currentCategory
@@ -65,12 +58,7 @@ export function App() {
     <div className="p-5">
       <div className="flex">
         <Tags className="mr-10" tags={configs.categories} onClick={selectCategory} />
-        <SearchBox
-          clearOnEsc
-          onChange={actions.search}
-          clear={actions.search}
-          value={data.searchText}
-        />
+        <SearchBox onChange={actions.search} value={data.searchText} />
       </div>
       <div className="grid grid-cols-4 py-2">{cards}</div>
     </div>
